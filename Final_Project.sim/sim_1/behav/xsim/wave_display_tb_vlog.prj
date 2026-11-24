@@ -1,0 +1,12 @@
+# compile verilog/system verilog design source files
+verilog xil_defaultlib  \
+"../../../../src/design/fake_sample_ram.v" \
+"../../../../src/design/ff_lib.v" \
+"../../../../src/design/wave_display.v" \
+"../../../../src/sim/wave_display_tb.v" \
+
+# compile glbl module
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort

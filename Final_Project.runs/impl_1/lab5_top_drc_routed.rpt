@@ -1,0 +1,67 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
+| Date         : Mon Nov  9 16:02:00 2026
+| Host         : iron-15 running 64-bit Rocky Linux release 8.10 (Green Obsidian)
+| Command      : report_drc -file lab5_top_drc_routed.rpt -pb lab5_top_drc_routed.pb -rpx lab5_top_drc_routed.rpx
+| Design       : lab5_top
+| Device       : xc7z020clg400-1
+| Speed File   : -1
+| Design State : Fully Routed
+------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: netlist
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 6
++----------+----------+--------------------+------------+
+| Rule     | Severity | Description        | Violations |
++----------+----------+--------------------+------------+
+| PDRC-153 | Warning  | Gated clock check  | 5          |
+| ZPS7-1   | Warning  | PS7 block required | 1          |
++----------+----------+--------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+PDRC-153#1 Warning
+Gated clock check  
+Net pipeline_ff_new_frame/q_reg[0]_0[0] is a gated clock net sourced by a combinational pin pipeline_ff_new_frame/valid_sample[-1111111096]_i_1/O, cell pipeline_ff_new_frame/valid_sample[-1111111096]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#2 Warning
+Gated clock check  
+Net wd_top/wc/count_flop/E[0] is a gated clock net sourced by a combinational pin wd_top/wc/count_flop/addr_reg[8]_i_2/O, cell wd_top/wc/count_flop/addr_reg[8]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#3 Warning
+Gated clock check  
+Net wd_top/wc/count_flop/q_reg[1]_0[0] is a gated clock net sourced by a combinational pin wd_top/wc/count_flop/next_count_reg[7]_i_2/O, cell wd_top/wc/count_flop/next_count_reg[7]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#4 Warning
+Gated clock check  
+Net wd_top/wc/state_flop/q_reg[0]_0 is a gated clock net sourced by a combinational pin wd_top/wc/state_flop/index_reg_i_2/O, cell wd_top/wc/state_flop/index_reg_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+PDRC-153#5 Warning
+Gated clock check  
+Net wd_top/wc/state_flop/q_reg[1]_1 is a gated clock net sourced by a combinational pin wd_top/wc/state_flop/write_en_reg_i_2/O, cell wd_top/wc/state_flop/write_en_reg_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+Related violations: <none>
+
+ZPS7-1#1 Warning
+PS7 block required  
+The PS7 cell must be used in this Zynq design in order to enable correct default configuration.
+Related violations: <none>
+
+

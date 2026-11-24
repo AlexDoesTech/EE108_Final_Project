@@ -1,0 +1,109 @@
+Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2019.2 (lin64) Build 2708876 Wed Nov  6 21:39:14 MST 2019
+| Date         : Mon Nov  9 16:01:39 2026
+| Host         : iron-15 running 64-bit Rocky Linux release 8.10 (Green Obsidian)
+| Command      : report_control_sets -verbose -file lab5_top_control_sets_placed.rpt
+| Design       : lab5_top
+| Device       : xc7z020
+-------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    31 |
+|    Minimum number of control sets                        |    31 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |   136 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    31 |
+| >= 0 to < 4        |     6 |
+| >= 4 to < 6        |     2 |
+| >= 6 to < 8        |     1 |
+| >= 8 to < 10       |     5 |
+| >= 10 to < 12      |     4 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |    13 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |             163 |           61 |
+| No           | No                    | Yes                    |              44 |           19 |
+| No           | Yes                   | No                     |             140 |           46 |
+| Yes          | No                    | No                     |              81 |           34 |
+| Yes          | No                    | Yes                    |               0 |            0 |
+| Yes          | Yes                   | No                     |              84 |           24 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------------------------------+--------------------------------------------------------------------------+--------------------------------------------------+------------------+----------------+
+|              Clock Signal              |                               Enable Signal                              |                 Set/Reset Signal                 | Slice Load Count | Bel Load Count |
++----------------------------------------+--------------------------------------------------------------------------+--------------------------------------------------+------------------+----------------+
+|  wd_top/wc/state_flop/q_reg[0]_0       |                                                                          |                                                  |                1 |              1 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/i2c_scl_i_1_n_0          |                                                  |                1 |              1 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/i2c_sda_t_i_1_n_0        |                                                  |                1 |              1 |
+|  wd_top/wc/state_flop/q_reg[1]_1       |                                                                          |                                                  |                1 |              1 |
+|  U2/inst/clk_out2                      |                                                                          | U3/inst/rst_in                                   |                1 |              2 |
+|  U2/inst/clk_out1                      | music_player/song_reader/note_counter/E[0]                               | btn_IBUF[2]                                      |                1 |              2 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/i2c_bits_left0           |                                                  |                2 |              4 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/state[3]_i_1_n_0         |                                                  |                4 |              4 |
+|  U2/inst/clk_out1                      | music_player/song_reader/fsm/q_reg[0]_0[0]                               | btn_IBUF[2]                                      |                3 |              6 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/bitcount[7]_i_1_n_0      |                                                  |                4 |              8 |
+|  wd_top/wc/count_flop/q_reg[1]_0[0]    |                                                                          |                                                  |                2 |              8 |
+|  U2/inst/clk_out1                      | wd_top/wd/en0                                                            | btn_IBUF[2]                                      |                3 |              8 |
+|  U2/inst/clk_out1                      |                                                                          | music_player/song_reader/note_counter/SR[0]      |                3 |              8 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/i2c_data[8]_i_1_n_0      |                                                  |                4 |              9 |
+|  U2/inst/clk_out1                      | music_player/pipeline_ff_gen_next_sample/E[0]                            | music_player/beat_generator/counter/q[9]_i_1_n_0 |                3 |             10 |
+|  adau1761_codec/codec_clock_gen/CLK_48 |                                                                          |                                                  |                8 |             10 |
+|  U2/inst/clk_out2                      |                                                                          | vga_control/hcounter[10]_i_1_n_0                 |                4 |             11 |
+|  U2/inst/clk_out2                      | vga_control/eqOp                                                         | vga_control/vcounter[10]_i_1_n_0                 |                3 |             11 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/delay[15]_i_1_n_0        |                                                  |                7 |             16 |
+|  pipeline_ff_new_frame/q_reg[0]_0[0]   |                                                                          |                                                  |                7 |             16 |
+|  wd_top/wc/count_flop/E[0]             |                                                                          |                                                  |                6 |             17 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2s_data_interface/i2s_lr_last_i_1_n_0 |                                                  |                5 |             18 |
+|  U2/inst/clk_out1                      |                                                                          | next_button_press_unit/debounce/state/q_reg[1]_0 |                5 |             20 |
+|  U2/inst/clk_out1                      |                                                                          | play_button_press_unit/debounce/state/q_reg[1]_0 |                5 |             20 |
+|  adau1761_codec/codec_clock_gen/CLK_48 | adau1761_codec/i2c_interface/Inst_i2c/Inst_i3c2/pcnext[9]_i_1_n_0        |                                                  |                6 |             20 |
+|  U2/inst/clk_out1                      | music_player/pipeline_ff_gen_next_sample/generate_next0                  | btn_IBUF[2]                                      |                6 |             22 |
+|  U2/inst/clk_out1                      |                                                                          |                                                  |                8 |             22 |
+|  U2/inst/clk_out1                      | music_player/pipeline_ff_nsg/E[0]                                        | btn_IBUF[2]                                      |                5 |             25 |
+|  U2/inst/clk_out2                      |                                                                          | U3/inst/rst_q2                                   |               18 |             42 |
+|  U2/inst/clk_out1                      |                                                                          | btn_IBUF[2]                                      |               29 |             81 |
+|  U2/inst/clk_out2                      |                                                                          |                                                  |               31 |            116 |
++----------------------------------------+--------------------------------------------------------------------------+--------------------------------------------------+------------------+----------------+
+
+
