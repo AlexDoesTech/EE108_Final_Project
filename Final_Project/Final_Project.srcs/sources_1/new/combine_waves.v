@@ -4,11 +4,21 @@
 // ----------------------------------------------
 
 module combine_waves(
-    input combine_waves, // when high, the waves should be combined, otherwise 
-    input [15:0] wave_to_add, wave_sum, 
+    input [2:0] available_waves,
+    input [15:0] wave_1, wave_2, wave_3,
     output [15:0] combined_wave_out
 );
 
-    assign combined_wave_out = combine_waves ? (wave_to_add + wave_sum) : wave_sum; // adds the wave to the rolling sum only when combine_waves is high
+reg [15:0] combine_waves;
+
+always @(*) begin
+    // Combine the waves only if a sample is ready
+    combine_waves = available_waves[0] ? combine_waves + wave_1 : combine_waves;
+    combine_waves = available_waves[1] ? combine_waves + wave_2 : combine_waves;
+    combine_waves = available_waves[2] ? combine_waves + wave_3 : combine_waves;
+    
+end
+
+assign combined_wave_out = combine_waves;
 
 endmodule

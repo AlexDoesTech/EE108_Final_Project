@@ -141,8 +141,8 @@ module music_player(
     dffre is_note_player_3_open (.clk(clk), .r((selected_player == 3'd2) && ~reset), .en(note_done3 || reset), .d(1'b1), .q(player_3_free));
     dffre is_schedule_player_open (.clk(clk), .r((selected_player == 3'd3) && ~reset), .en(sch_done || reset), .d(1'b1), .q(sch_player_free));
 
-    // Get a new note when any of the notes from the players is completed
-    assign note_done = (player_1_free || player_2_free || player_3_free || sch_player_free);
+    // Get a new note when any of the notes from the players is completed and we're not in advance time
+    assign note_done = ((player_1_free || player_2_free || player_3_free) && sch_player_free);
 
     note_player note_player1(
         .clk(clk),
@@ -200,16 +200,20 @@ module music_player(
         .new_sample_ready(note_sample_ready0_sch)
     );
     
+
+    
 //   
 //  ****************************************************************************
 //      Combine Waves
 //  ****************************************************************************
 //  
  
-
+    wire [15:0] note_sample;
+    wire [2:0] samples_ready = {note_sample_ready_1, note_sample_ready_2, note_sample_ready_3};
     
+    combine_waves wave_adder(.available_waves(samples_ready), .wave_1(note_sample_1), .wave_2(note_sample_2), .wave_3(note_sample_3), .combined_waves(note_sample));
    
-//   
+//  
 //  ****************************************************************************
 //      Beat Generator
 //  ****************************************************************************
@@ -240,7 +244,7 @@ module music_player(
         .clk(clk),
         .reset(reset),
         .new_sample_in(note_sample),
-        .latch_new_sample_in(note_sample_ready),
+        .latch_new_sample_in(|samples_ready),   // OR all the bits in the string, if one is high, we want to output
         .generate_next_sample(generate_next_sample0),
         .new_frame(new_frame),
         .valid_sample(sample_out0)
