@@ -2,6 +2,7 @@
 `define NOTE_WIDTH 6
 `define DURATION_WIDTH 6
 `define SCHEDULE_WIDTH 1
+`define METADATA_WIDTH 3
 
 // ----------------------------------------------
 // Define State Assignments
@@ -20,14 +21,16 @@ module song_reader(
     input play,
     input [1:0] song,
     input note_done,
+    input player_available,
     output wire song_done,
     output wire [5:0] note,
     output wire [5:0] duration,
     output wire schedule,
+    output wire [2:0] metadata,
     output wire new_note
 );
     wire [`SONG_WIDTH-1:0] curr_note_num, next_note_num;
-    wire [`SCHEDULE_WIDTH + `NOTE_WIDTH + `DURATION_WIDTH -1:0] schedule_note_and_duration;
+    wire [`SCHEDULE_WIDTH + `NOTE_WIDTH + `DURATION_WIDTH + `METADATA_WIDTH -1:0] schedule_note_and_duration;
     wire [`SONG_WIDTH + 1:0] rom_addr = {song, curr_note_num};
 
     wire [`SWIDTH-1:0] state;
@@ -54,8 +57,8 @@ module song_reader(
 
     always @(*) begin
         case (state)
-            `PAUSED:            next = play ? `RETRIEVE_NOTE : `PAUSED;
-            `RETRIEVE_NOTE:     next = play ? `NEW_NOTE_READY : `PAUSED;
+            `PAUSED:            next = play && ~schedule ? `RETRIEVE_NOTE : `PAUSED;
+            `RETRIEVE_NOTE:     next = !play ? `PAUSED : player_available ? `NEW_NOTE_READY : `RETRIEVE_NOTE;   // if the player is available, new note is ready, otherwise wait until player opens
             `NEW_NOTE_READY:    next = play ? `WAIT: `PAUSED;
             `WAIT:              next = !play ? `PAUSED
                                              : (note_done ? `INCREMENT_ADDRESS
@@ -71,7 +74,7 @@ module song_reader(
         (state == `INCREMENT_ADDRESS) ? {1'b0, curr_note_num} + 1
                                       : {1'b0, curr_note_num};
     assign new_note = (state == `NEW_NOTE_READY);
-    assign {schedule, note, duration} = schedule_note_and_duration;
+    assign {schedule, note, duration, metadata} = schedule_note_and_duration;
     assign song_done = overflow;
 
 endmodule

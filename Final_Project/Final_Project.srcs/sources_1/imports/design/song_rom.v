@@ -1,15 +1,12 @@
-//  How to use: 
-//  1. Edit the songs on the Enter Song sheet.  
-//  2. Select this whole worksheet, copy it, and paste it into a new file.  
-//  3. Save the file as song_rom.v. 
+
 
 module song_rom (
     input clk,
-    input [6:0] addr,
-    output reg [11:0] dout
+    input [8:0] addr,
+    output reg [15:0] dout
 );  
 
-    wire [15:0] memory [127:0];
+    wire [15:0] memory [511:0];
 
     always @(posedge clk)                       
         dout = memory[addr];                    

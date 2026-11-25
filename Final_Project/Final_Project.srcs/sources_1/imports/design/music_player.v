@@ -63,6 +63,7 @@ module music_player(
 //
     wire [5:0] note_to_play;
     wire [5:0] duration_for_note;
+    wire [2:0] metadata;
     wire new_note;
     wire note_done;
     
@@ -77,9 +78,11 @@ module music_player(
         .song_done(song_done),
         .note(note_to_play),
         .duration(duration_for_note),
+        .metadata(metadata),
         .schedule(schedule_note),
         .new_note(new_note),
-        .note_done(note_done)
+        .note_done(note_done),
+        .player_available(player_available)
     );
 
 //   
@@ -141,8 +144,11 @@ module music_player(
     dffre is_note_player_3_open (.clk(clk), .r(new_note && (selected_player == 3'd2) && ~reset), .en(note_done3 || reset), .d(1'b1), .q(player_3_free));
     dffre is_schedule_player_open (.clk(clk), .r(new_note && (selected_player == 3'd3) && ~reset), .en(sch_done || reset), .d(1'b1), .q(sch_player_free));
 
-    // Get a new note when any of the notes from the players is completed and we're not in advance time
-    assign note_done = ((player_1_free || player_2_free || player_3_free) && sch_player_free);
+    // Indicate if a player is ready. If we're scheduling, look at the schedule player, otherwise see if any of the note players are available
+    wire player_available = schedule_note ? sch_player_free : (player_1_free || player_2_free || player_3_free);
+    
+    // Schedule player determines when we advance in the song
+    assign note_done = sch_player_free;
 
     note_player note_player1(
         .clk(clk),
@@ -224,7 +230,7 @@ module music_player(
     beat_generator #(.WIDTH(10), .STOP(BEAT_COUNT)) beat_generator(
         .clk(clk),
         .reset(reset),
-        .en(generate_next_sample),
+        .en(generate_next_sample0),
         .beat(beat)
     );
 
@@ -239,7 +245,7 @@ module music_player(
     dffr pipeline_ff_nsg (.clk(clk), .r(reset), .d(new_sample_generated0), .q(new_sample_generated));
     dffr #(.WIDTH(16)) pipeline_ff_sample_out (.clk(clk), .r(reset), .d(sample_out0), .q(sample_out));
 
-    assign new_sample_generated0 = generate_next_sample;
+    assign new_sample_generated0 = generate_next_sample0;
     codec_conditioner codec_conditioner(
         .clk(clk),
         .reset(reset),
