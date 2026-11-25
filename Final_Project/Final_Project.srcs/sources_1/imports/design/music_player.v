@@ -29,6 +29,8 @@ module music_player(
     // If you reduce this to 100 your simulation will be 10x faster.
     parameter BEAT_COUNT = 1000;
 
+    // Index of the selected noteplayer
+    wire note_player_index;
 
 //
 //  ****************************************************************************
@@ -63,6 +65,10 @@ module music_player(
     wire [5:0] duration_for_note;
     wire new_note;
     wire note_done;
+    
+    // New output that indicates if the note is a schedule
+    wire schedule_note;
+    
     song_reader song_reader(
         .clk(clk),
         .reset(reset | reset_player),
@@ -71,39 +77,98 @@ module music_player(
         .song_done(song_done),
         .note(note_to_play),
         .duration(duration_for_note),
+        .schedule(schedule_note),
         .new_note(new_note),
         .note_done(note_done)
     );
 
 //   
 //  ****************************************************************************
-//      Note Player
+//      Note Players
 //  ****************************************************************************
 //  
     wire beat;
     wire generate_next_sample, generate_next_sample0;
     wire [15:0] note_sample, note_sample0;
-    wire note_sample_ready, note_sample_ready0;
+    wire note_sample_ready, note_sample_ready0; 
+    wire note_done1, note_done2, note_done3, sch_done;
+
+    wire player_1_free, player_2_free, player_3_free, sch_player_free; 
+    wire [3:0] note_players_free = {schedule_note, player_1_free, player_2_free, player_3_free};
+    wire [2:0] selected_player;
+    
+    // Selects the priority available player
+    player_arbiter play_arb (.available_players(note_players_free), .chosen_player(selected_player));
 
     // These pipeline registers were added to decrease the length of the critical path!
     dffr pipeline_ff_gen_next_sample (.clk(clk), .r(reset), .d(generate_next_sample0), .q(generate_next_sample));
     dffr #(.WIDTH(16)) pipeline_ff_note_sample (.clk(clk), .r(reset), .d(note_sample0), .q(note_sample));
     dffr pipeline_ff_new_sample_ready (.clk(clk), .r(reset), .d(note_sample_ready0), .q(note_sample_ready));
 
-    note_player note_player(
+    // Flip flops that hold the available note players, zero out only when the player is selected, reset outputs 1 as player is available after reset
+    dffre is_note_player_1_open (.clk(clk), .r((selected_player == 3'd0) && ~reset), .en(note_done1 || reset), .d(1'b1), .q(player_1_free));
+    dffre is_note_player_2_open (.clk(clk), .r((selected_player == 3'd1) && ~reset), .en(note_done2 || reset), .d(1'b1), .q(player_2_free));
+    dffre is_note_player_3_open (.clk(clk), .r((selected_player == 3'd2) && ~reset), .en(note_done3 || reset), .d(1'b1), .q(player_3_free));
+    dffre is_schedule_player_open (.clk(clk), .r((selected_player == 3'd4) && ~reset), .en(sch_done || reset), .d(1'b1), .q(sch_player_free));
+
+    // Get a new note when any of the notes from the players is completed
+    assign note_done = (player_1_free || player_2_free || player_3_free || sch_player_free);
+
+    note_player note_player1(
         .clk(clk),
         .reset(reset),
         .play_enable(play),
         .note_to_load(note_to_play),
         .duration_to_load(duration_for_note),
-        .load_new_note(new_note),
-        .done_with_note(note_done),
+        .load_new_note(new_note && (selected_player == 3'd0)),
+        .done_with_note(note_done1),
         .beat(beat),
         .generate_next_sample(generate_next_sample),
         .sample_out(note_sample0),
         .new_sample_ready(note_sample_ready0)
     );
-      
+    
+    note_player note_player2(
+        .clk(clk),
+        .reset(reset),
+        .play_enable(play),
+        .note_to_load(note_to_play),
+        .duration_to_load(duration_for_note),
+        .load_new_note(new_note && (selected_player == 3'd1)),
+        .done_with_note(note_done2),
+        .beat(beat),
+        .generate_next_sample(generate_next_sample),
+        .sample_out(note_sample0),
+        .new_sample_ready(note_sample_ready0)
+    );
+    
+    note_player note_player3(
+        .clk(clk),
+        .reset(reset),
+        .play_enable(play),
+        .note_to_load(note_to_play),
+        .duration_to_load(duration_for_note),
+        .load_new_note(new_note && (selected_player == 3'd2)),
+        .done_with_note(note_done3),
+        .beat(beat),
+        .generate_next_sample(generate_next_sample),
+        .sample_out(note_sample0),
+        .new_sample_ready(note_sample_ready0)
+    );
+    
+    note_player schedule_note_player(
+        .clk(clk),
+        .reset(reset),
+        .play_enable(play),
+        .note_to_load(note_to_play),
+        .duration_to_load(duration_for_note),
+        .load_new_note(new_note && (selected_player == 3'd3)),
+        .done_with_note(sch_done),
+        .beat(beat),
+        .generate_next_sample(generate_next_sample),
+        .sample_out(note_sample0),
+        .new_sample_ready(note_sample_ready0)
+    );
 //   
 //  ****************************************************************************
 //      Beat Generator

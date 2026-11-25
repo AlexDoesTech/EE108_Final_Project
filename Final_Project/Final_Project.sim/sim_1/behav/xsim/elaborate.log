@@ -1,8 +1,24 @@
 Vivado Simulator 2019.2
 Copyright 1986-1999, 2001-2019 Xilinx, Inc. All Rights Reserved.
-Running: /cad/xilinx/vivado/2019.2/Vivado/2019.2/bin/unwrapped/lnx64.o/xelab -wto 50bfd919e2104cd3b9b92adf4223dd12 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot wave_capture_tb_behav xil_defaultlib.wave_capture_tb xil_defaultlib.glbl -log elaborate.log 
+Running: /cad/xilinx/vivado/2019.2/Vivado/2019.2/bin/unwrapped/lnx64.o/xelab -wto 283b493c95a44a91b3f097ce702f71c1 --incr --debug typical --relax --mt 8 -L xil_defaultlib -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot wave_capture_tb_behav xil_defaultlib.wave_capture_tb xil_defaultlib.glbl -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
-INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4099] "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/wave_capture.v" Line 1. Module wave_capture doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/ff_lib.v" Line 34. Module dffre(WIDTH=16) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/ff_lib.v" Line 34. Module dffre(WIDTH=16) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/ff_lib.v" Line 16. Module dffr(WIDTH=2) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/ff_lib.v" Line 34. Module dffre(WIDTH=8) doesn't have a timescale but at least one module in design has a timescale.
+WARNING: [XSIM 43-4099] "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/ff_lib.v" Line 16. Module dffr doesn't have a timescale but at least one module in design has a timescale.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module xil_defaultlib.dffre(WIDTH=16)
+Compiling module xil_defaultlib.dffr(WIDTH=2)
+Compiling module xil_defaultlib.dffre(WIDTH=8)
+Compiling module xil_defaultlib.dffr
+Compiling module xil_defaultlib.wave_capture
+Compiling module xil_defaultlib.wave_capture_tb
+Compiling module xil_defaultlib.glbl
+Built simulation snapshot wave_capture_tb_behav

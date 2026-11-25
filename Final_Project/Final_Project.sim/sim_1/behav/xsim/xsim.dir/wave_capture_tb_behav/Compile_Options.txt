@@ -1,0 +1,1 @@
+-wto "283b493c95a44a91b3f097ce702f71c1" --incr --debug "typical" --relax --mt "8" -L "xil_defaultlib" -L "unisims_ver" -L "unimacro_ver" -L "secureip" -L "xpm" --snapshot "wave_capture_tb_behav" "xil_defaultlib.wave_capture_tb" "xil_defaultlib.glbl" -log "elaborate.log" 

@@ -832,3 +832,73 @@ INFO: [Common 17-83] Releasing license: Implementation
 write_bitstream completed successfully
 write_bitstream: Time (s): cpu = 00:00:12 ; elapsed = 00:00:22 . Memory (MB): peak = 3278.195 ; gain = 191.891 ; free physical = 119243 ; free virtual = 179479
 INFO: [Common 17-206] Exiting Vivado at Mon Nov  9 16:02:27 2026...
+
+*** Running vivado
+    with args -log lab5_top.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source lab5_top.tcl -notrace
+
+
+****** Vivado v2019.2 (64-bit)
+  **** SW Build 2708876 on Wed Nov  6 21:39:14 MST 2019
+  **** IP Build 2700528 on Thu Nov  7 00:09:20 MST 2019
+    ** Copyright 1986-2019 Xilinx, Inc. All Rights Reserved.
+
+source lab5_top.tcl -notrace
+Command: open_checkpoint lab5_top_routed.dcp
+
+Starting open_checkpoint Task
+
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.11 . Memory (MB): peak = 1463.309 ; gain = 0.000 ; free physical = 45005 ; free virtual = 169018
+INFO: [Device 21-403] Loading part xc7z020clg400-1
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 1780.918 ; gain = 0.000 ; free physical = 44695 ; free virtual = 168710
+INFO: [Netlist 29-17] Analyzing 41 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-479] Netlist was created with Vivado 2019.2
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Timing 38-478] Restoring timing data from binary archive.
+INFO: [Timing 38-479] Binary timing data restore complete.
+INFO: [Project 1-856] Restoring constraints from binary archive.
+INFO: [Project 1-853] Binary constraint restore complete.
+Reading XDEF placement.
+Reading placer database...
+Reading XDEF routing.
+Read XDEF File: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.25 . Memory (MB): peak = 2416.227 ; gain = 5.938 ; free physical = 44244 ; free virtual = 168258
+Restored from archive | CPU: 0.260000 secs | Memory: 2.279976 MB |
+Finished XDEF File Restore: Time (s): cpu = 00:00:00.15 ; elapsed = 00:00:00.26 . Memory (MB): peak = 2416.227 ; gain = 5.938 ; free physical = 44244 ; free virtual = 168258
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2416.227 ; gain = 0.000 ; free physical = 44240 ; free virtual = 168255
+INFO: [Project 1-111] Unisim Transformation Summary:
+  A total of 1 instances were transformed.
+  IOBUF => IOBUF (IBUF, OBUFT): 1 instance 
+
+INFO: [Project 1-604] Checkpoint was created with Vivado v2019.2 (64-bit) build 2708876
+open_checkpoint: Time (s): cpu = 00:00:14 ; elapsed = 00:00:32 . Memory (MB): peak = 2416.227 ; gain = 952.918 ; free physical = 44240 ; free virtual = 168255
+Command: write_bitstream -force lab5_top.bit
+Attempting to get a license for feature 'Implementation' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Implementation' and/or device 'xc7z020'
+Running DRC as a precondition to command write_bitstream
+INFO: [IP_Flow 19-234] Refreshing IP repositories
+INFO: [IP_Flow 19-1704] No user IP repositories specified
+INFO: [IP_Flow 19-2313] Loaded Vivado IP repository '/cad/xilinx/vivado/2019.2/Vivado/2019.2/data/ip'.
+INFO: [DRC 23-27] Running DRC with 8 threads
+WARNING: [DRC PDRC-153] Gated clock check: Net pipeline_ff_new_frame/q_reg[0]_0[0] is a gated clock net sourced by a combinational pin pipeline_ff_new_frame/valid_sample[-1111111096]_i_1/O, cell pipeline_ff_new_frame/valid_sample[-1111111096]_i_1. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net wd_top/wc/count_flop/E[0] is a gated clock net sourced by a combinational pin wd_top/wc/count_flop/addr_reg[8]_i_2/O, cell wd_top/wc/count_flop/addr_reg[8]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net wd_top/wc/count_flop/q_reg[1]_0[0] is a gated clock net sourced by a combinational pin wd_top/wc/count_flop/next_count_reg[7]_i_2/O, cell wd_top/wc/count_flop/next_count_reg[7]_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net wd_top/wc/state_flop/q_reg[0]_0 is a gated clock net sourced by a combinational pin wd_top/wc/state_flop/index_reg_i_2/O, cell wd_top/wc/state_flop/index_reg_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC PDRC-153] Gated clock check: Net wd_top/wc/state_flop/q_reg[1]_1 is a gated clock net sourced by a combinational pin wd_top/wc/state_flop/write_en_reg_i_2/O, cell wd_top/wc/state_flop/write_en_reg_i_2. This is not good design practice and will likely impact performance. For SLICE registers, for example, use the CE pin to control the loading of data.
+WARNING: [DRC ZPS7-1] PS7 block required: The PS7 cell must be used in this Zynq design in order to enable correct default configuration.
+INFO: [Vivado 12-3199] DRC finished with 0 Errors, 6 Warnings
+INFO: [Vivado 12-3200] Please refer to the DRC report (report_drc) for more information.
+INFO: [Designutils 20-2272] Running write_bitstream with 8 threads.
+Loading data files...
+Loading site data...
+Loading route data...
+Processing options...
+Creating bitmap...
+Creating bitstream...
+Writing bitstream ./lab5_top.bit...
+INFO: [Vivado 12-1842] Bitgen Completed Successfully.
+INFO: [Project 1-118] WebTalk data collection is enabled (User setting is ON. Install Setting is ON.).
+INFO: [Common 17-83] Releasing license: Implementation
+22 Infos, 6 Warnings, 0 Critical Warnings and 0 Errors encountered.
+write_bitstream completed successfully
+write_bitstream: Time (s): cpu = 00:00:11 ; elapsed = 00:00:22 . Memory (MB): peak = 2867.570 ; gain = 451.344 ; free physical = 43924 ; free virtual = 167943
+INFO: [Common 17-206] Exiting Vivado at Tue Nov 24 12:40:15 2026...

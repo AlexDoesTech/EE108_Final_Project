@@ -20,7 +20,7 @@ else
 fi
 export LD_LIBRARY_PATH
 
-HD_PWD='/home/users/ajstumpf/lab5/lab5.runs/impl_1'
+HD_PWD='/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.runs/impl_1'
 cd "$HD_PWD"
 
 HD_LOG=runme.log
@@ -37,7 +37,7 @@ EAStep()
 }
 
 # pre-commands:
-/bin/touch .init_design.begin.rst
+/bin/touch .write_bitstream.begin.rst
 EAStep vivado -log lab5_top.vdi -applog -m64 -product Vivado -messageDb vivado.pb -mode batch -source lab5_top.tcl -notrace
 
 

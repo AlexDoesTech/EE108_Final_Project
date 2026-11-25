@@ -1,0 +1,10 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/ff_lib.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module dff
+INFO: [VRFC 10-311] analyzing module dffr
+INFO: [VRFC 10-311] analyzing module dffre
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sources_1/imports/design/wave_capture.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module wave_capture
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.srcs/sim_1/imports/sim/wave_capture_tb.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module wave_capture_tb
+INFO: [VRFC 10-2263] Analyzing Verilog file "/home/users/ajstumpf/Final_Project_Github_Repo/Final_Project/Final_Project.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module glbl

@@ -15,6 +15,8 @@ module note_player(
     wire [19:0] step_size;
     wire [5:0] freq_rom_in;
 
+    wire [15:0] wave_sample;
+
     dffre #(.WIDTH(6)) freq_reg (
         .clk(clk),
         .r(reset),
@@ -35,8 +37,13 @@ module note_player(
         .step_size(step_size),
         .generate_next(play_enable && generate_next_sample),
         .sample_ready(new_sample_ready),
-        .sample(sample_out)
+        .sample(wave_sample)
     );
+
+
+// ----------------------------------------------
+// Counts Note Play Duration
+// ----------------------------------------------
 
     wire [5:0] state, next_state;
     dffre #(.WIDTH(6)) state_reg (

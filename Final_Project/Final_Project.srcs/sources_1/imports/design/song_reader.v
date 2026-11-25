@@ -1,6 +1,7 @@
 `define SONG_WIDTH 5
 `define NOTE_WIDTH 6
 `define DURATION_WIDTH 6
+`define SCHEDULE_WIDTH 1
 
 // ----------------------------------------------
 // Define State Assignments
@@ -22,10 +23,11 @@ module song_reader(
     output wire song_done,
     output wire [5:0] note,
     output wire [5:0] duration,
+    output wire schedule,
     output wire new_note
 );
     wire [`SONG_WIDTH-1:0] curr_note_num, next_note_num;
-    wire [`NOTE_WIDTH + `DURATION_WIDTH -1:0] note_and_duration;
+    wire [`SCHEDULE_WIDTH + `NOTE_WIDTH + `DURATION_WIDTH -1:0] schedule_note_and_duration;
     wire [`SONG_WIDTH + 1:0] rom_addr = {song, curr_note_num};
 
     wire [`SWIDTH-1:0] state;
@@ -48,7 +50,7 @@ module song_reader(
         .q(state)
     );
 
-    song_rom rom(.clk(clk), .addr(rom_addr), .dout(note_and_duration));
+    song_rom rom(.clk(clk), .addr(rom_addr), .dout(schedule_note_and_duration));
 
     always @(*) begin
         case (state)
@@ -69,7 +71,7 @@ module song_reader(
         (state == `INCREMENT_ADDRESS) ? {1'b0, curr_note_num} + 1
                                       : {1'b0, curr_note_num};
     assign new_note = (state == `NEW_NOTE_READY);
-    assign {note, duration} = note_and_duration;
+    assign {schedule, note, duration} = schedule_note_and_duration;
     assign song_done = overflow;
 
 endmodule
