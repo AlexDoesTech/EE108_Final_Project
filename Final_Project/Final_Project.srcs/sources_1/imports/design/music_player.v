@@ -136,10 +136,10 @@ module music_player(
 
     // Flip flops that hold the available note players, zero out only when
     // the player is selected, reset outputs 1 as player is available after reset
-    dffre is_note_player_1_open (.clk(clk), .r((selected_player == 3'd0) && ~reset), .en(note_done1 || reset), .d(1'b1), .q(player_1_free));
-    dffre is_note_player_2_open (.clk(clk), .r((selected_player == 3'd1) && ~reset), .en(note_done2 || reset), .d(1'b1), .q(player_2_free));
-    dffre is_note_player_3_open (.clk(clk), .r((selected_player == 3'd2) && ~reset), .en(note_done3 || reset), .d(1'b1), .q(player_3_free));
-    dffre is_schedule_player_open (.clk(clk), .r((selected_player == 3'd3) && ~reset), .en(sch_done || reset), .d(1'b1), .q(sch_player_free));
+    dffre is_note_player_1_open (.clk(clk), .r(new_note && (selected_player == 3'd0) && ~reset), .en(note_done1 || reset), .d(1'b1), .q(player_1_free));
+    dffre is_note_player_2_open (.clk(clk), .r(new_note && (selected_player == 3'd1) && ~reset), .en(note_done2 || reset), .d(1'b1), .q(player_2_free));
+    dffre is_note_player_3_open (.clk(clk), .r(new_note && (selected_player == 3'd2) && ~reset), .en(note_done3 || reset), .d(1'b1), .q(player_3_free));
+    dffre is_schedule_player_open (.clk(clk), .r(new_note && (selected_player == 3'd3) && ~reset), .en(sch_done || reset), .d(1'b1), .q(sch_player_free));
 
     // Get a new note when any of the notes from the players is completed and we're not in advance time
     assign note_done = ((player_1_free || player_2_free || player_3_free) && sch_player_free);
@@ -211,7 +211,7 @@ module music_player(
     wire [15:0] note_sample;
     wire [2:0] samples_ready = {note_sample_ready_1, note_sample_ready_2, note_sample_ready_3};
     
-    combine_waves wave_adder(.available_waves(samples_ready), .wave_1(note_sample_1), .wave_2(note_sample_2), .wave_3(note_sample_3), .combined_waves(note_sample));
+    combine_waves wave_adder(.available_waves(samples_ready), .wave_1(note_sample_1), .wave_2(note_sample_2), .wave_3(note_sample_3), .combined_wave_out(note_sample));
    
 //  
 //  ****************************************************************************

@@ -1,4 +1,4 @@
-`define SONG_WIDTH 5
+`define SONG_WIDTH 7
 `define NOTE_WIDTH 6
 `define DURATION_WIDTH 6
 `define SCHEDULE_WIDTH 1
