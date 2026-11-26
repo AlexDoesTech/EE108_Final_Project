@@ -12,7 +12,8 @@
 `define WAIT               3'b001
 `define INCREMENT_ADDRESS  3'b010
 `define RETRIEVE_NOTE      3'b011
-`define NEW_NOTE_READY     3'b100
+`define PLAYER_AVAILABLE   3'b100
+`define NEW_NOTE_READY     3'b101
 
 
 module song_reader(
@@ -57,8 +58,11 @@ module song_reader(
 
     always @(*) begin
         case (state)
-            `PAUSED:            next = play && ~schedule ? `RETRIEVE_NOTE : `PAUSED;
-            `RETRIEVE_NOTE:     next = !play ? `PAUSED : player_available ? `NEW_NOTE_READY : `RETRIEVE_NOTE;   // if the player is available, new note is ready, otherwise wait until player opens
+            `PAUSED:            next = play ? `RETRIEVE_NOTE : `PAUSED;
+            `RETRIEVE_NOTE:     next = play ? `PLAYER_AVAILABLE : `PAUSED;
+            `PLAYER_AVAILABLE:  next = !play ? `PAUSED
+                                             : player_available ? `NEW_NOTE_READY
+                                                           : `PLAYER_AVAILABLE;  
             `NEW_NOTE_READY:    next = play ? `WAIT: `PAUSED;
             `WAIT:              next = !play ? `PAUSED
                                              : (note_done ? `INCREMENT_ADDRESS

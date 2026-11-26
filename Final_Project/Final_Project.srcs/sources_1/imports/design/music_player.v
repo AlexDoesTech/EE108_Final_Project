@@ -66,6 +66,7 @@ module music_player(
     wire [2:0] metadata;
     wire new_note;
     wire note_done;
+    wire player_available;
     
     // New output that indicates if the note is a schedule
     wire schedule_note;
@@ -109,7 +110,16 @@ module music_player(
     wire note_done1, note_done2, note_done3, sch_done;
 
     wire player_1_free, player_2_free, player_3_free, sch_player_free;
-    wire [3:0] note_players_free = {schedule_note, player_1_free, player_2_free, player_3_free};
+    
+    // Each bit represents if the given player is free given we're not in a schedule note
+    wire [3:0] note_players_free = {
+        schedule_note && sch_player_free, 
+        player_1_free && !schedule_note, 
+        player_2_free && !schedule_note, 
+        player_3_free && !schedule_note
+    
+    };
+    
     wire [2:0] selected_player;
 
     // Selects the priority available player
@@ -145,10 +155,10 @@ module music_player(
     dffre is_schedule_player_open (.clk(clk), .r(new_note && (selected_player == 3'd3) && ~reset), .en(sch_done || reset), .d(1'b1), .q(sch_player_free));
 
     // Indicate if a player is ready. If we're scheduling, look at the schedule player, otherwise see if any of the note players are available
-    wire player_available = schedule_note ? sch_player_free : (player_1_free || player_2_free || player_3_free);
+    assign player_available = schedule_note ? sch_player_free : (player_1_free || player_2_free || player_3_free);
     
     // Schedule player determines when we advance in the song
-    assign note_done = sch_player_free;
+    assign note_done = schedule_note ? sch_player_free : (note_done1 || note_done2 || note_done3);
 
     note_player note_player1(
         .clk(clk),
@@ -215,9 +225,15 @@ module music_player(
 //  
  
     wire [15:0] note_sample;
-    wire [2:0] samples_ready = {note_sample_ready_1, note_sample_ready_2, note_sample_ready_3};
+    wire [2:0] samples_ready = {note_sample_ready_3, note_sample_ready_2, note_sample_ready_1};
     
-    combine_waves wave_adder(.available_waves(samples_ready), .wave_1(note_sample_1), .wave_2(note_sample_2), .wave_3(note_sample_3), .combined_wave_out(note_sample));
+    combine_waves wave_adder(
+        .available_waves(samples_ready), 
+        .wave_1(note_sample_1), 
+        .wave_2(note_sample_2), 
+        .wave_3(note_sample_3), 
+        .combined_wave_out(note_sample)
+    );
    
 //  
 //  ****************************************************************************

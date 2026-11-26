@@ -1,4 +1,4 @@
-Running: xsim.dir/music_player_tb_behav/xsimk -simmode gui -wdb music_player_tb_behav.wdb -simrunnum 0 -socket 41915
+Running: xsim.dir/music_player_tb_behav/xsimk -simmode gui -wdb music_player_tb_behav.wdb -simrunnum 0 -socket 39035
 Design successfully loaded
-Design Loading Memory Usage: 45132 KB (Peak: 45132 KB)
-Design Loading CPU Usage: 60 ms
+Design Loading Memory Usage: 45140 KB (Peak: 45140 KB)
+Design Loading CPU Usage: 30 ms
