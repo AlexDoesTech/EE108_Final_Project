@@ -160,6 +160,7 @@ module music_player(
     // Schedule player determines when we advance in the song
     assign note_done = schedule_note ? sch_player_free : (note_done1 || note_done2 || note_done3);
 
+    // Load note and generate sample when the player is selected
     note_player note_player1(
         .clk(clk),
         .reset(reset),
@@ -169,7 +170,7 @@ module music_player(
         .load_new_note(new_note && (selected_player == 3'd0)),
         .done_with_note(note_done1),
         .beat(beat),
-        .generate_next_sample(generate_next_sample_1),
+        .generate_next_sample(generate_next_sample_1 && (selected_player == 3'd0)),
         .sample_out(note_sample0_1),
         .new_sample_ready(note_sample_ready0_1)
     );
@@ -183,7 +184,7 @@ module music_player(
         .load_new_note(new_note && (selected_player == 3'd1)),
         .done_with_note(note_done2),
         .beat(beat),
-        .generate_next_sample(generate_next_sample_2),
+        .generate_next_sample(generate_next_sample_2 && (selected_player == 3'd1)),
         .sample_out(note_sample0_2),
         .new_sample_ready(note_sample_ready0_2)
     );
@@ -197,7 +198,7 @@ module music_player(
         .load_new_note(new_note && (selected_player == 3'd2)),
         .done_with_note(note_done3),
         .beat(beat),
-        .generate_next_sample(generate_next_sample_3),
+        .generate_next_sample(generate_next_sample_3 && (selected_player == 3'd2)),
         .sample_out(note_sample0_3),
         .new_sample_ready(note_sample_ready0_3)
     );
@@ -211,7 +212,7 @@ module music_player(
         .load_new_note(new_note && (selected_player == 3'd3)),
         .done_with_note(sch_done),
         .beat(beat),
-        .generate_next_sample(generate_next_sample_sch),
+        .generate_next_sample(generate_next_sample_sch && (selected_player == 3'd3)),
         .sample_out(note_sample0_sch),
         .new_sample_ready(note_sample_ready0_sch)
     );
@@ -228,6 +229,10 @@ module music_player(
     wire [2:0] samples_ready = {note_sample_ready_3, note_sample_ready_2, note_sample_ready_1};
     
     combine_waves wave_adder(
+        .clk(clk),
+        .reset(reset),
+        .new_sample(|sample_ready),
+        .note_done(note_done),
         .available_waves(samples_ready), 
         .wave_1(note_sample_1), 
         .wave_2(note_sample_2), 

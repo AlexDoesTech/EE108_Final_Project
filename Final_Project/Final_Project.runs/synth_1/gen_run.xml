@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="synth_1" LaunchPart="xc7z020clg400-1" LaunchTime="1794268758">
-  <File Type="RDS-DCP" Name="lab5_top.dcp"/>
   <File Type="PA-TCL" Name="lab5_top.tcl"/>
+  <File Type="RDS-DCP" Name="lab5_top.dcp"/>
   <File Type="REPORTS-TCL" Name="lab5_top_reports.tcl"/>
   <File Type="RDS-RDS" Name="lab5_top.vds"/>
   <File Type="RDS-UTIL-PB" Name="lab5_top_utilization_synth.pb"/>
@@ -329,6 +329,6 @@
     <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2019"/>
     <Step Id="synth_design"/>
   </Strategy>
-  <BlockFileSet Type="BlockSrcs" Name="clk_wiz_0"/>
   <BlockFileSet Type="BlockSrcs" Name="hdmi_tx_0"/>
+  <BlockFileSet Type="BlockSrcs" Name="clk_wiz_0"/>
 </GenRun>
