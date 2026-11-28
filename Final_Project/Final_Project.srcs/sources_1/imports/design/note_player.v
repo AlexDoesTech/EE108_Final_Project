@@ -15,6 +15,8 @@ module note_player(
     wire [19:0] step_size;
     wire [5:0] freq_rom_in;
 
+    wire [15:0] sample_out0;
+
     dffre #(.WIDTH(6)) freq_reg (
         .clk(clk),
         .r(reset),
@@ -35,7 +37,7 @@ module note_player(
         .step_size(step_size),
         .generate_next(play_enable && generate_next_sample),
         .sample_ready(new_sample_ready),
-        .sample(sample_out)
+        .sample(sample_out0)
     );
 
 
@@ -51,9 +53,16 @@ module note_player(
         .d(next_state),
         .q(state)
     );
-    assign next_state = (reset || done_with_note || load_new_note)
-                        ? duration_to_load : state - 1;
+    
+    // Load 0 instead when the note is done
+    assign next_state = (done_with_note) ? 6'b0 :
+                        (reset || load_new_note) ? duration_to_load : 
+                        state - 1;
 
-    assign done_with_note = (state == 6'b0) && beat;
+    // Doesn't rely on beat
+    assign done_with_note = (state == 6'b0);
+    
+    // If the given note is finsihed, output 16'd0 so the combined waveform is unaffected
+    assign sample_out = (done_with_note) ? 16'd0 : sample_out0
 
 endmodule

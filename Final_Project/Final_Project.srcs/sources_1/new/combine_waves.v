@@ -21,9 +21,9 @@ wire [17:0] combine_waves;
 
 // Audio samples are signed 2's complements. To extend, prepend the MSB twice, in 2's these are the same value
 // Additional logic to add 18'd0 if the given wave is not available
-wire [17:0] extended_wave_1 = available_waves[0] ? {{2{wave_1[15]}}, wave_1} : 18'd0;
-wire [17:0] extended_wave_2 = available_waves[1] ? {{2{wave_2[15]}}, wave_2} : 18'd0;
-wire [17:0] extended_wave_3 = available_waves[2] ? {{2{wave_3[15]}}, wave_3} : 18'd0;
+wire [17:0] extended_wave_1 = {{2{wave_1[15]}}, wave_1};
+wire [17:0] extended_wave_2 = {{2{wave_2[15]}}, wave_2};
+wire [17:0] extended_wave_3 = {{2{wave_3[15]}}, wave_3};
 
 // Number of available waves
 wire [1:0] num_available = available_waves[0] + available_waves[1] + available_waves[2];
